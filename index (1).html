@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Khem Barde | Portfolio</title>
+<meta name="description" content="Khem Barde - portfolio: projects, skills, experience and contact."/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
+/* ===== EDIT COLORS HERE ===== */
+:root{--bg:#0b1020;--panel:#141b34;--ink:#eef1ff;--mute:#9aa6cf;--a:#38e1ff;--b:#ff4fd8}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Space Grotesk",system-ui,sans-serif;line-height:1.55;overflow-x:hidden}
+a{color:inherit}
+nav{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:16px 6vw;background:rgba(11,16,32,.8);backdrop-filter:blur(8px)}
+nav b{font-size:1.1rem}
+nav a{text-decoration:none;margin-left:22px;color:var(--mute)}
+nav a:hover{color:var(--a)}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:30px;align-items:center;min-height:86vh;padding:30px 6vw}
+.hero h1{font-size:clamp(2.4rem,7vw,5rem);line-height:1;margin:0 0 18px;letter-spacing:-.03em}
+.hero h1 span{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mute);max-width:46ch;font-size:1.1rem}
+.btn{display:inline-block;margin-top:14px;padding:14px 26px;border-radius:12px;background:linear-gradient(90deg,var(--a),var(--b));color:#06091a;font-weight:700;text-decoration:none}
+/* ---- 3D cube ---- */
+.scene{perspective:900px;height:340px;display:grid;place-items:center}
+.cube{--s:190px;width:var(--s);height:var(--s);position:relative;transform-style:preserve-3d;will-change:transform}
+.face{position:absolute;inset:0;display:grid;place-items:center;font-weight:700;font-size:1.1rem;border:2px solid var(--a);background:rgba(56,225,255,.08);box-shadow:inset 0 0 40px rgba(56,225,255,.25),0 0 24px rgba(255,79,216,.2);backface-visibility:visible}
+.f1{transform:translateZ(95px)}
+.f2{transform:rotateY(90deg) translateZ(95px)}
+.f3{transform:rotateY(180deg) translateZ(95px)}
+.f4{transform:rotateY(-90deg) translateZ(95px)}
+.f5{transform:rotateX(90deg) translateZ(95px);border-color:var(--b)}
+.f6{transform:rotateX(-90deg) translateZ(95px);border-color:var(--b)}
+section{padding:70px 6vw}
+h2{font-size:clamp(1.8rem,4vw,2.6rem);margin:0 0 30px;letter-spacing:-.02em}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;perspective:1000px}
+/* ---- 3D tilt cards ---- */
+.card{background:var(--panel);border-radius:18px;padding:28px;transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .15s ease-out;border:1px solid #232c50}
+.card h3{margin:0 0 8px;transform:translateZ(40px)}
+.card p{margin:0;color:var(--mute);transform:translateZ(20px)}
+.ico{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--a),var(--b));margin-bottom:16px;transform:translateZ(55px)}
+/* ---- layered work tiles ---- */
+.work{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px}
+.tile{height:200px;border-radius:18px;position:relative;overflow:hidden;background:var(--panel);display:flex;align-items:flex-end;padding:20px;font-weight:700;transition:transform .3s}
+.tile::before,.tile::after{content:"";position:absolute;border-radius:50%;transition:transform .4s}
+.tile::before{width:170px;height:170px;right:-40px;top:-50px;background:var(--a);opacity:.5}
+.tile::after{width:120px;height:120px;right:50px;top:30px;background:var(--b);opacity:.55}
+.tile:hover{transform:translateY(-8px)}
+.tile:hover::before{transform:translate(-14px,10px) scale(1.1)}
+.tile:hover::after{transform:translate(18px,-8px) scale(.9)}
+.tile span{position:relative}
+.hero .role{color:var(--a);font-weight:500;font-size:1.2rem;margin:0 0 10px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn.ghost{background:none;border:1px solid var(--a);color:var(--a)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;transform:translateZ(25px)}
+.tags span{padding:4px 12px;border-radius:99px;border:1px solid var(--a);color:var(--a);font-size:.85rem}
+.card .plink{display:inline-block;margin-top:14px;color:var(--b);font-weight:500;transform:translateZ(30px)}
+.card .num{font-size:.9rem;color:var(--a);margin-bottom:6px;transform:translateZ(30px)}
+.about{display:grid;grid-template-columns:auto 1fr;gap:34px;align-items:center;max-width:900px}
+.avatar{width:170px;height:170px;border-radius:50%;display:grid;place-items:center;font-size:3.4rem;font-weight:700;color:#06091a;background:linear-gradient(135deg,var(--a),var(--b));box-shadow:0 0 50px rgba(56,225,255,.3);overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.about p{color:var(--mute);font-size:1.1rem;margin:0 0 12px;max-width:60ch}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.chips span{padding:8px 16px;border-radius:99px;border:1px solid var(--a);color:var(--a);font-size:.95rem}
+.time{border-left:2px solid #232c50;margin-left:8px;max-width:720px}
+.time div{position:relative;padding:0 0 30px 28px}
+.time div::before{content:"";position:absolute;left:-8px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--b)}
+.time h3{margin:0}.time small{color:var(--a)}.time p{margin:6px 0 0;color:var(--mute)}
+.links{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:20px 0}
+.links a{padding:12px 22px;border-radius:12px;border:1px solid #232c50;background:var(--panel);text-decoration:none}
+.links a:hover{border-color:var(--b)}
+@media (max-width:760px){.about{grid-template-columns:1fr}}
+footer{padding:70px 6vw 50px;text-align:center;color:var(--mute)}
+footer h2{color:var(--ink)}
+:focus-visible{outline:3px solid var(--a);outline-offset:3px}
+@media (max-width:760px){.hero{grid-template-columns:1fr;text-align:left}.scene{height:280px}nav a{margin-left:14px}}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+</style>
+</head>
+<body>
+<nav><b>Khem Barde</b><div><a href="#about">About</a><a href="#skills">Skills</a><a href="#projects">Projects</a><a href="#experience">Experience</a><a href="#contact">Contact</a></div></nav>
+
+<header class="hero">
+  <div>
+    <!-- EDIT: your role and a one-line pitch for interviewers -->
+    <p class="role">Your Role, e.g. Software Developer</p>
+    <h1>Khem Barde</h1>
+    <p>One or two lines that tell an interviewer what you are good at and what job you are looking for.</p>
+    <div class="btns">
+      <a class="btn" href="#projects">View projects</a>
+      <a class="btn ghost" href="resume.pdf" target="_blank" rel="noopener">Download resume</a>
+    </div>
+  </div>
+  <div class="scene" id="scene">
+    <div class="cube" id="cube">
+      <div class="face f1">Khem</div><div class="face f2">Barde</div>
+      <div class="face f3">Portfolio</div><div class="face f4">Open to work</div>
+      <div class="face f5">Projects</div><div class="face f6">Skills</div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <h2>About me</h2>
+  <div class="about">
+    <!-- EDIT: to use your photo, replace KB with <img src="photo.jpg" alt="Khem Barde"> -->
+    <div class="avatar">KB</div>
+    <div>
+      <p>Write 2 to 3 sentences: who you are, your education, and what you enjoy working on.</p>
+      <p>Add what you are looking for next, such as an internship or a full-time role.</p>
+      <div class="chips"><span>City, India</span><span>Degree / College</span><span>English, Hindi, Marathi</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <h2>Skills</h2>
+  <div class="grid">
+    <!-- EDIT: group your skills -->
+    <div class="card"><h3>Technical</h3><div class="tags"><span>Skill 1</span><span>Skill 2</span><span>Skill 3</span><span>Skill 4</span></div></div>
+    <div class="card"><h3>Tools</h3><div class="tags"><span>Tool 1</span><span>Tool 2</span><span>Tool 3</span></div></div>
+    <div class="card"><h3>Soft skills</h3><div class="tags"><span>Communication</span><span>Teamwork</span><span>Problem solving</span></div></div>
+  </div>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+  <div class="grid">
+    <!-- EDIT: name, what it does, tech used, and link (GitHub or live demo) -->
+    <div class="card"><div class="num">Project 1</div><h3>Project name</h3><p>What it does and the problem it solves, in one or two sentences.</p><div class="tags"><span>Tech</span><span>Tech</span></div><a class="plink" href="https://github.com/" target="_blank" rel="noopener">View project</a></div>
+    <div class="card"><div class="num">Project 2</div><h3>Project name</h3><p>What it does and the problem it solves, in one or two sentences.</p><div class="tags"><span>Tech</span><span>Tech</span></div><a class="plink" href="https://github.com/" target="_blank" rel="noopener">View project</a></div>
+    <div class="card"><div class="num">Project 3</div><h3>Project name</h3><p>What it does and the problem it solves, in one or two sentences.</p><div class="tags"><span>Tech</span><span>Tech</span></div><a class="plink" href="https://github.com/" target="_blank" rel="noopener">View project</a></div>
+  </div>
+</section>
+
+<section id="experience">
+  <h2>Experience and education</h2>
+  <!-- EDIT: newest first. Add internships, jobs, degrees, certificates -->
+  <div class="time">
+    <div><small>Year - Present</small><h3>Role or degree</h3><p>Company or college. One line on what you did or achieved.</p></div>
+    <div><small>Year - Year</small><h3>Internship, certificate or school</h3><p>Where, and what you learned or built.</p></div>
+    <div><small>Year - Year</small><h3>Earlier education</h3><p>School or college, and result.</p></div>
+  </div>
+</section>
+
+<footer id="contact">
+  <h2>Get in touch</h2>
+  <p>Open to interviews and opportunities.</p>
+  <div class="links">
+    <!-- EDIT: your real email, phone and profile links -->
+    <a href="mailto:you@example.com">you@example.com</a>
+    <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+    <a href="resume.pdf" target="_blank" rel="noopener">Resume</a>
+  </div>
+  <p>&#169; Khem Barde</p>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var cube=document.getElementById("cube"), mx=0, my=0, t=0;
+  window.addEventListener("pointermove",function(e){
+    mx=(e.clientX/window.innerWidth-.5)*70; my=(e.clientY/window.innerHeight-.5)*-70;
+  });
+  function loop(){
+    t+=reduce?0:.4;
+    cube.style.transform="rotateX("+(-22+my)+"deg) rotateY("+(t+mx)+"deg)";
+    requestAnimationFrame(loop);
+  }
+  loop();
+  document.querySelectorAll(".card").forEach(function(c){
+    c.addEventListener("pointermove",function(e){
+      if(reduce) return;
+      var r=c.getBoundingClientRect();
+      c.style.setProperty("--ry",((e.clientX-r.left)/r.width-.5)*16+"deg");
+      c.style.setProperty("--rx",((e.clientY-r.top)/r.height-.5)*-16+"deg");
+    });
+    c.addEventListener("pointerleave",function(){c.style.setProperty("--rx","0deg");c.style.setProperty("--ry","0deg")});
+  });
+})();
+</script>
+</body>
+</html>
